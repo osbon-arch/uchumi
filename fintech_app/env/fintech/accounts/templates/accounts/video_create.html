@@ -1,0 +1,27 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Add Video{% endblock %}
+
+{% block content %}
+    <h2>Add New Video</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="url">Video URL:</label>
+            <input type="url" class="form-control" name="url" required>
+        </div>
+        <div class="form-group">
+            <label for="thumbnail">Thumbnail URL:</label>
+            <input type="url" class="form-control" name="thumbnail" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" name="description" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Add Video</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Welcome to Your Savings Groups!</h1>
+    <p class="text-center">Manage your savings effectively with your friends and family.</p>
+
+    <div class="summary-card card">
+        <div class="card-body">
+            <h5 class="card-title">Total Savings</h5>
+            <p class="card-text">KSh {{ total_savings }}</p>
+        </div>
+    </div>
+
+    <h5>Recent Activities</h5>
+    <ul class="list-group">
+        {% for activity in recent_activities %}
+            <li class="list-group-item">{{ activity.recent_update }}</li>
+        {% empty %}
+            <li class="list-group-item">No recent activities.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="greeting-popup" id="greetingPopup">
+        <h3>Hello, {{ user.username }}!</h3>
+        <p>Welcome back to your savings app. Let's start saving together!</p>
+        <button class="btn btn-primary" onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        function showPopup() {
+            document.getElementById('greetingPopup').style.display = 'block';
+        }
+        function closePopup() {
+            document.getElementById('greetingPopup').style.display = 'none';
+        }
+        window.onload = function() {
+            showPopup();
+        }
+    </script>
+{% endblock %}

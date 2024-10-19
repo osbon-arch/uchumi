@@ -1,0 +1,23 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Videos{% endblock %}
+
+{% block content %}
+    <h2>Videos</h2>
+    <a href="{% url 'video_create' %}" class="btn btn-primary">Add New Video</a>
+    <ul class="list-group mt-3">
+        {% for video in videos %}
+            <li class="list-group-item d-flex align-items-center">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }} thumbnail" style="width: 100px; height: auto; margin-right: 15px;">
+                <div>
+                    <h5>{{ video.title }}</h5>
+                    <p>{{ video.description }}</p>
+                    <p><a href="{{ video.url }}" target="_blank">Watch Video</a></p>
+                    <p><small>Created at: {{ video.created_at }}</small></p>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No videos available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

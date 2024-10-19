@@ -1,0 +1,19 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block content %}
+    <h2>Articles</h2>
+    <a href="{% url 'article_create' %}" class="btn btn-primary">Add New Article</a>
+    <ul class="list-group mt-3">
+        {% for article in articles %}
+            <li class="list-group-item">
+                <h5>{{ article.title }}</h5>
+                <p>{{ article.content }}</p>
+                <p><small>Created at: {{ article.created_at }}</small></p>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No articles available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

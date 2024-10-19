@@ -1,0 +1,19 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Add Quiz{% endblock %}
+
+{% block content %}
+    <h2>Add New Quiz</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" name="description" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Add Quiz</button>
+    </form>
+{% endblock %}

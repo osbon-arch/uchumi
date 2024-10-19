@@ -1,0 +1,19 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Quizzes{% endblock %}
+
+{% block content %}
+    <h2>Quizzes</h2>
+    <a href="{% url 'quiz_create' %}" class="btn btn-primary">Add New Quiz</a>
+    <ul class="list-group mt-3">
+        {% for quiz in quizzes %}
+            <li class="list-group-item">
+                <h5>{{ quiz.title }}</h5>
+                <p>{{ quiz.description }}</p>
+                <p><small>Created at: {{ quiz.created_at }}</small></p>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No quizzes available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

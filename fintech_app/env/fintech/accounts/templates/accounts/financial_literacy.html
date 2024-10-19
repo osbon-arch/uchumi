@@ -1,0 +1,19 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Financial Literacy Resources{% endblock %}
+
+{% block content %}
+    <h2 class="mt-4">Financial Literacy Resources</h2>
+    <p>Explore these resources to improve your financial knowledge.</p>
+    <ul class="list-group">
+        {% for resource in resources %}
+            <li class="list-group-item">
+                <h5>{{ resource.title }}</h5>
+                <p>{{ resource.description }}</p>
+                <a href="{{ resource.link }}" class="btn btn-primary" target="_blank">Learn More</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No resources available at the moment.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

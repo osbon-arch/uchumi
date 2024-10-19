@@ -1,0 +1,34 @@
+{% block content %}
+    <h2>{{ group.name }}</h2>
+    <p>Total Savings: KSh {{ group.total_savings }}</p>
+    <p>Savings Goal: KSh {{ group.savings_goal }}</p>
+    <p>Payout Amount: KSh {{ group.payout_amount }}</p>
+
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="savings_goal">Set Savings Goal (KSh):</label>
+            <input type="number" class="form-control" name="savings_goal" placeholder="Enter savings goal">
+        </div>
+        <div class="form-group">
+            <label for="payout_amount">Set Payout Amount (KSh):</label>
+            <input type="number" class="form-control" name="payout_amount" placeholder="Enter payout amount">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+    {% if group.is_goal_met %}
+        <a href="{% url 'payout' group.id %}" class="btn btn-success mt-3">Make Payout</a>
+    {% endif %}
+
+    <h3 class="mt-4">Contributions:</h3>
+    <ul class="list-group">
+        {% for contribution in contributions %}
+            <li class="list-group-item">
+                {{ contribution.member.username }} contributed KSh {{ contribution.amount }} on {{ contribution.date|date:"Y-m-d" }}
+            </li>
+        {% empty %}
+            <li class="list-group-item">No contributions yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
