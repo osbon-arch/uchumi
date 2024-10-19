@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ty&$t751bd_vtk!izw5(yi643^%*1@xci4s500$0$(u&cb-z8a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://uchumi-1.onrender.com"]
 
 
 # Application definition
