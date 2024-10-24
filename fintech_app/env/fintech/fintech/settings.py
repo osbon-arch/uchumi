@@ -11,9 +11,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +28,9 @@ SECRET_KEY = 'django-insecure-ty&$t751bd_vtk!izw5(yi643^%*1@xci4s500$0$(u&cb-z8a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://uchumi-1.onrender.com"]
+ALLOWED_HOSTS = ['8938-105-163-27-172.ngrok-free.app', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://8938-105-163-27-172.ngrok-free.app']
+
 
 
 # Application definition
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    
 ]
 
 MIDDLEWARE = [
@@ -49,6 +55,38 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+#email setup
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'omwangori@gmail.com'  # Replace with your Gmail
+EMAIL_HOST_PASSWORD = 'cstu twse njkr lpyc'  # Use a Gmail App Password for security
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+#mpesa integration
+# settings.py
+
+MPESA_ENV = 'sandbox'  # Change to 'production' when live
+MPESA_CONSUMER_KEY = '0zJoHWq9MUuja8vjTbiZpU5rpOr5aGe0hicAMqti0bxGuB2Z'
+MPESA_CONSUMER_SECRET = 'itAcOTR6doqAaJTWQwEqvus6ch416HuixTV2PIK7AZ98rZDy3DJpAgg4aqGa9G5F'
+MPESA_SHORTCODE = '174379'
+MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2b89c3d6f4cba8eb'  # For Lipa na Mpesa
+MPESA_BUSINESS_SHORTCODE = '174379'  # For Paybill services
+MPESA_LIPA_SHORTCODE = '174379'  # For Lipa na Mpesa Online (STK Push)
+
+
+#configurations for celerey
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Adjust if needed
+CELERY_BEAT_SCHEDULE = {
+    'fetch-finance-news-every-2-hours': {
+        'task': 'accounts.utils.fetch_latest_finance_news',
+        'schedule': 7200.0,  # 2 hours in seconds
+    },
+}
 
 ROOT_URLCONF = 'fintech.urls'
 
@@ -116,7 +154,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, ),
+]
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

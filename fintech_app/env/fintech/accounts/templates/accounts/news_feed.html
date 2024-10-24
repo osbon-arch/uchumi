@@ -1,0 +1,62 @@
+<!-- templates/news_feed.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance News Feed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .article {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .article h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+        .article a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .article a:hover {
+            text-decoration: underline;
+        }
+        .published-at {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Latest Finance News</h1>
+        {% for article in articles %}
+            <div class="article">
+                <h2><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h2>
+                <div class="published-at">{{ article.published_at }}</div>
+            </div>
+        {% empty %}
+            <p>No articles found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

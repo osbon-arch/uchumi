@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Community
 
 # Create your views here.
 from django.shortcuts import render, redirect
@@ -11,6 +12,11 @@ from .models import Contribution
 from django.shortcuts import get_object_or_404
 from .models import FinancialLiteracyResource
 from .models import Article, Video, Quiz
+from .models import Saving, Transaction
+from decimal import Decimal
+from .models import Wallet
+from .models import NewsArticle
+
 
 @login_required
 def landing_page_view(request):
@@ -31,6 +37,16 @@ def landing_page_view(request):
     })
 
 
+
+
+
+
+def landing_page(request):
+    return render(request, 'accounts/landing.html')
+
+
+def account_overview(request):
+    return render(request, 'accounts/account_overview.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -60,7 +76,7 @@ def register_view(request):
                 user = User.objects.create_user(username=username, email=email, password=password1)
                 user.save()
                 login(request, user)
-                return redirect('home')  # Replace 'home' with your homepage URL
+                return redirect('landing')  # Replace 'home' with your homepage URL
         else:
             messages.error(request, 'Passwords do not match')
     return render(request, 'accounts/register.html')
@@ -190,4 +206,110 @@ def quiz_create_view(request):
 
     return render(request, 'accounts/quiz_create.html')
 
+
+@login_required
+def savings_overview(request):
+    saving, created = Saving.objects.get_or_create(user=request.user)
+    transactions = saving.transactions.all()
+    return render(request, 'accounts/savings_overview.html', {'saving': saving, 'transactions': transactions})
+
+@login_required
+def add_transaction(request):
+    if request.method == 'POST':
+        saving, created = Saving.objects.get_or_create(user=request.user)
+        amount = Decimal(request.POST.get('amount'))  # Convert to Decimal
+        transaction_type = request.POST.get('transaction_type')
+
+        if transaction_type == 'deposit':
+            saving.total_amount += amount  # Now both are Decimal
+        elif transaction_type == 'withdrawal':
+            saving.total_amount -= amount  # Now both are Decimal
+
+        saving.save()
+        Transaction.objects.create(saving=saving, amount=amount, transaction_type=transaction_type)
+        return redirect('savings_overview')
+
+@login_required
+def delete_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+    saving = transaction.saving
+    amount = transaction.amount
+
+    if transaction.transaction_type == 'deposit':
+        saving.total_amount -= Decimal(amount)  # Ensure it's a Decimal
+    elif transaction.transaction_type == 'withdrawal':
+        saving.total_amount += Decimal(amount)  # Ensure it's a Decimal
+
+    saving.save()
+    transaction.delete()
+    return redirect('savings_overview')
+
+
+def community_list(request):  # Rename the function
+    search_query = request.GET.get('search', '')
+    communities = Community.objects.filter(name__icontains=search_query)  # Change this line
+    return render(request, 'accounts/community_list.html', {'communities': communities, 'search_query': search_query})  # Change this line
+
+@login_required
+def join_community(request, community_id):  # Rename the function
+    community = get_object_or_404(Community, id=community_id)  # Change this line
+    community.members.add(request.user)
+    return redirect('community_list')  # Change this line
+
+
+
+@login_required
+def add_community(request):
+    if request.method == 'POST':
+        community_name = request.POST.get('name')
+        if community_name:
+            Community.objects.create(name=community_name, created_by=request.user)
+            messages.success(request, 'Community created successfully!')
+            return redirect('community_list')
+        else:
+            messages.error(request, 'Please provide a community name.')
+    
+    return render(request, 'accounts/add_community.html')
+
+
+#mpesa call back function
+# accounts/views.py
+
+from django.http import JsonResponse
+
+def mpesa_callback(request):
+    # Safaricom sends the transaction response as POST data
+    data = request.body.decode('utf-8')
+    # Parse and store the transaction details as needed
+    # E.g., you can save transaction details to a database
+    return JsonResponse({"ResultCode": 0, "ResultDesc": "Accepted"})
+
+#wallet view
+def wallet_view(request):
+    """Displays user's wallet balance and options for deposits and withdrawals"""
+    wallet, created = Wallet.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        if 'deposit' in request.POST:
+            # Handle deposit logic here
+            amount = Decimal(request.POST.get('amount'))  # Convert to Decimal
+            wallet.deposit(amount)
+            messages.success(request, f'Successfully deposited KES {amount:.2f}')
+        elif 'withdraw' in request.POST:
+            # Handle withdrawal logic here
+            amount = Decimal(request.POST.get('amount'))  # Convert to Decimal
+            if wallet.withdraw(amount):
+                messages.success(request, f'Successfully withdrew KES {amount:.2f}')
+            else:
+                messages.error(request, 'Insufficient balance for withdrawal')
+
+        return redirect('wallet')
+
+    return render(request, 'accounts/wallet.html', {'wallet': wallet})
+#news feed func
+def news_feed(request):
+    articles = NewsArticle.objects.all().order_by('-published_at')
+    return render(request, 'accounts/news_feed.html', {'articles': articles})
+
+    
 

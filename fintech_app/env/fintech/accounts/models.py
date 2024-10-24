@@ -3,6 +3,8 @@ from django.db import models
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
+
 
 class SavingsGroup(models.Model):
     name = models.CharField(max_length=255)
@@ -84,4 +86,60 @@ class Question(models.Model):
     options = models.JSONField()  # Store multiple options as a list
 
     def __str__(self):
-        return self.question_text        
+        return self.question_text   
+    
+class Saving(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    def __str__(self):
+        return f"{self.user.username}'s Savings"
+
+class Transaction(models.Model):
+    saving = models.ForeignKey(Saving, on_delete=models.CASCADE, related_name='transactions')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    transaction_type = models.CharField(max_length=10, choices=[('deposit', 'Deposit'), ('withdrawal', 'Withdrawal')])
+
+    def __str__(self):
+        return f"{self.transaction_type.capitalize()} of {self.amount} on {self.created_at}"   
+
+class Community(models.Model):
+    name = models.CharField(max_length=255)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_communities')
+    members = models.ManyToManyField(User, related_name='communities', blank=True)
+
+    def __str__(self):
+        return self.name       
+    
+
+#model for the wallet
+class Wallet(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+
+    def deposit(self, amount):
+        """Add money to wallet"""
+        self.balance += Decimal(amount)  # Convert amount to Decimal
+        self.save()
+
+    def withdraw(self, amount):
+        """Withdraw money from wallet"""
+        if self.balance >= Decimal(amount):  # Convert amount to Decimal
+            self.balance -= Decimal(amount)  # Convert amount to Decimal
+            self.save()
+            return True
+        return False
+
+    def __str__(self):
+        return f"{self.user.username}'s Wallet"
+    
+#news model
+class NewsArticle(models.Model):
+    title = models.CharField(max_length=255)
+    url = models.URLField()
+    published_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

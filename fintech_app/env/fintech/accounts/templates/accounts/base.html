@@ -6,9 +6,9 @@
     <title>{% block title %}SavingsApp{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
+<body style="background-color: #1B0033;color: #3A006A;" >
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'landing' %}">SavingsApp</a>
+        <a class="navbar-brand" href="{% url 'landing' %}">Uchumi-z</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -17,6 +17,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'group_list' %}">Your Groups</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'savings_overview' %}">savings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'community_list' %}">communities</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create_group' %}">Create Group</a>
                 </li>

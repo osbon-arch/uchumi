@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintech Revolution - Welcome</title>
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Blob Styling */
+        .blob {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 80vmin;
+            height: 80vmin;
+            background: linear-gradient(135deg, #ff6b6b, #ffd200);
+            border-radius: 50%;
+            z-index: -1;
+            animation: blobAnimation 15s infinite ease-in-out;
+            transform: translateX(-50%);
+        }
+
+        @keyframes blobAnimation {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.2); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        /* Header Styling with Background Image */
+        .header {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Kenya.svg/1280px-Flag_of_Kenya.svg.png') no-repeat center center/cover;
+        }
+
+        /* Overlay on the Background Image */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for readability */
+            z-index: 1;
+        }
+
+        /* Hero Content */
+        .header .hero-content {
+            z-index: 2; /* Ensure it appears above the overlay */
+            color: white;
+        }
+
+        /* Hero Carousel */
+        .carousel-text {
+            font-size: 3.5rem;
+            color: white;
+            letter-spacing: 5px;
+            font-weight: bold;
+            animation: slideInDown 1.5s ease-in-out;
+        }
+
+        .carousel-message {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: white;
+            font-weight: bold;
+            animation: fadeInUp 2s ease-in-out;
+        }
+
+        @keyframes slideInDown {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typewriter Effect */
+        .typewriter h1 {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            letter-spacing: .15em;
+            border-right: .15em solid orange;
+            animation: typing 3.5s steps(30, end), blink .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 60px 20px;
+            background-color: #fff;
+            text-align: center;
+            animation: fadeInSection 1.5s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInSection {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Icon Styling */
+        .section .icon {
+            font-size: 3rem;
+            color: #00c3ff;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            color: #00c3ff;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 1.25rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Customer Feedback Carousel */
+        .carousel-item {
+            text-align: center;
+        }
+
+        .carousel-item p {
+            font-size: 1.25rem;
+            color: #555;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        .carousel-item h5 {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #00c3ff;
+        }
+
+        /* Call to Action Button */
+        .cta-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #00c3ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.25rem;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Blob -->
+    <div class="blob"></div>
+
+    <!-- Header Section with Hero Background Image and Overlay -->
+    <header class="header">
+        <div class="hero-content">
+            <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="typewriter">
+                            <h1>Empowering Your Financial Future</h1>
+                        </div>
+                        <p class="carousel-message">Track savings, manage goals, and much more!</p>
+                    </div>
+                    <div class="carousel-item">
+                        <h1 class="carousel-text">Take Charge of Your Finances</h1>
+                        <p class="carousel-message">Uchumi-z makes group savings easy!</p>
+                    </div>
+                    <div class="carousel-item">
+                        <h1 class="carousel-text">Your Future, Our Mission</h1>
+                        <p class="carousel-message">Join the Uchui-z Revolution now.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="icon">
+            <i class="fas fa-piggy-bank"></i>
+        </div>
+        <h2>Why uchumi-z is the Future?</h2>
+        <p>Our platform gives you full control of your financial destiny with group savings, easy payouts, and real-time contribution tracking.</p>
+    </section>
+
+    <!-- Customer Feedback Carousel -->
+    <section class="section">
+        <h2>What Our Users Say</h2>
+        <div id="feedbackCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <p>"Fintech transformed the way I save and manage my money!"</p>
+                    <h5>- George S.</h5>
+                </div>
+                <div class="carousel-item">
+                    <p>"This app helped me set savings goals and actually achieve them."</p>
+                    <h5>- khalid A.</h5>
+                </div>
+                <div class="carousel-item">
+                    <p>"Group savings has never been easier. Highly recommend!"</p>
+                    <h5>- osbon_m.</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="section highlight">
+        <div class="icon">
+            <i class="fas fa-chart-line"></i>
+        </div>
+        <h2>Join the Financial Revolution Today!</h2>
+        <a href="{%  url 'login' %}" class="cta-button">Get Started Now</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 uchumi-z - Empowering Financial Freedom</p>
+        <p>Join the revolution. Build your future with Fintech today!</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
